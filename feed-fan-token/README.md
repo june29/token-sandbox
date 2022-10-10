@@ -1,13 +1,8 @@
-# Sample Hardhat Project
+# Feed Fan Token
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+RSS のようなフィードを対象に「わたしはこれを購読しています」を表明できるトークンの実験をしたい。
 
-Try running some of the following tasks:
+## 要件
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+- 情報の発信者として、
+- 情報の受信者として、
