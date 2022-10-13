@@ -1,13 +1,14 @@
-# Sample Hardhat Project
+# Feed Fan Token
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a script that deploys that contract.
+RSS のようなフィードを対象に「わたしはこれを購読しています」を表明できるトークンの実験をしたい。
 
-Try running some of the following tasks:
+## 要件？
 
-```shell
-npx hardhat help
-npx hardhat test
-REPORT_GAS=true npx hardhat test
-npx hardhat node
-npx hardhat run scripts/deploy.ts
-```
+- 情報の発信者として、
+  - 自身が発信するフィードの受信者の姿を確認できる
+- 情報の受信者として、
+  - わたしはこのフィードを購読しています、を表現できる
+  - わたしはこのフィードの中のこのアイテムを消費しました、を記録できる
+- トークンとして、
+  - ERC721 として実装しておくといろんなところに表示されて便利そうだけど、Transfer したいわけではない
+  - SBT っぽく実装できるとよさそうな気はするが具体的にどうしたらいいかはわかっていない
