@@ -1,7 +1,7 @@
 import { ethers } from "hardhat";
 
 async function main() {
-  const BasicSFTContract = await ethers.getContractFactory("BasicSFTContract");
+  const BasicSFTContract = await ethers.getContractFactory("BasicSFT");
   const BasicSFT = await BasicSFTContract.deploy();
 
   await BasicSFT.deployed();
