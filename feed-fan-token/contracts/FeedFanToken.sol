@@ -13,6 +13,7 @@ contract FeedFanToken is ERC1155, Ownable {
     Counters.Counter private feedId;
     mapping(uint256 => string) private feedIdToUrl;
     mapping(string => uint256) private feedUrlToId;
+    mapping(uint256 => mapping(address => uint256)) private feedLastCheckedAt;
 
     constructor() ERC1155("") {
     }
@@ -44,6 +45,16 @@ contract FeedFanToken is ERC1155, Ownable {
 
     function isSubscribed(uint256 _feedId, address _user) public view returns (bool) {
         return balanceOf(_user, _feedId) > 0;
+    }
+
+    function touchFeedLastCheckedAt(uint256 _feedId) public {
+        require(isSubscribed(_feedId, msg.sender), "You are not subscribed to the feed");
+        feedLastCheckedAt[_feedId][msg.sender] = block.timestamp;
+    }
+
+    function getLastFeedCheckedAt(uint256 _feedId, address _user) public view returns (uint256) {
+        require(isSubscribed(_feedId, _user), "The user is not subscribed to the feed");
+        return feedLastCheckedAt[_feedId][_user];
     }
 
     // Override the uri function to provide on-chain metadata
