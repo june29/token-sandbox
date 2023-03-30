@@ -43,4 +43,10 @@ contract FeedFanToken is ERC1155, Ownable {
     function isSubscribed(uint256 _feedId, address _user) public view returns (bool) {
         return balanceOf(_user, _feedId) > 0;
     }
+
+    // Override the uri function to provide on-chain metadata
+    function uri(uint256 _id) public view override returns (string memory) {
+        string memory metadata = string(abi.encodePacked('{"feedUrl":"', feedIdToUrl[_id], '"}'));
+        return metadata;
+    }
 }
