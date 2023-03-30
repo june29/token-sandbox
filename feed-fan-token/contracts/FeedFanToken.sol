@@ -51,7 +51,7 @@ contract FeedFanToken is ERC1155, Ownable {
         string memory feedUrl = feedIdToUrl[_feedId];
         string memory json = string(abi.encodePacked(
             '{',
-            '"name": "FeedFanToken #', _feedId.toString(), '",',
+            '"name": "FeedFanToken #', Strings.toString(_feedId), '",',
             '"description": "On-Chain Feed Subscription Token",',
             '"feed_url": "', feedUrl, '",',
             '"attributes": [{"trait_type": "Feed URL", "value": "', feedUrl, '"}],',
