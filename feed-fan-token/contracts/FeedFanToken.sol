@@ -4,21 +4,23 @@ pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract FeedFanToken is ERC1155, Ownable {
-    uint256 private feedID;
+    using Counters for Counters.Counter;
+    Counters.Counter private feedID;
     mapping(uint256 => string) private feedURLs;
     mapping(string => uint256) private feedURLToID;
 
     constructor() ERC1155("") {
-        feedID = 0;
     }
 
     function addFeed(string memory feedURL) public onlyOwner {
         require(feedURLToID[feedURL] == 0, "Feed URL already exists");
-        feedID += 1;
-        feedURLs[feedID] = feedURL;
-        feedURLToID[feedURL] = feedID;
+        feedID.increment();
+        uint256 currentFeedID = feedID.current();
+        feedURLs[currentFeedID] = feedURL;
+        feedURLToID[feedURL] = currentFeedID;
     }
 
     function subscribe(uint256 _feedID) public {
