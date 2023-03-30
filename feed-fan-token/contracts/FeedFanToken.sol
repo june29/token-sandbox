@@ -45,8 +45,37 @@ contract FeedFanToken is ERC1155, Ownable {
     }
 
     // Override the uri function to provide on-chain metadata
-    function uri(uint256 _id) public view override returns (string memory) {
-        string memory metadata = string(abi.encodePacked('{"feedUrl":"', feedIdToUrl[_id], '"}'));
-        return metadata;
+    function uri(uint256 _feedId) public view override returns (string memory) {
+        string memory feedUrl = feedIdToUrl[_feedId];
+        string memory json = string(abi.encodePacked(
+            '{',
+            '"name": "FeedFanToken #', uint2str(_feedId), '",',
+            '"description": "On-Chain Feed Subscription Token",',
+            '"feed_url": "', feedUrl, '",',
+            '"attributes": [{"trait_type": "Feed URL", "value": "', feedUrl, '"}],',
+            '"image": "https://june29.github.io/feed-fan-token/feed-fan-token.png"',
+            '}'
+        ));
+        return json;
+    }
+
+    // Helper function to convert uint to string
+    function uint2str(uint256 _i) private pure returns (string memory _uintAsString) {
+        if (_i == 0) {
+            return "0";
+        }
+        uint256 j = _i;
+        uint256 len;
+        while (j != 0) {
+            len++;
+            j /= 10;
+        }
+        bytes memory bstr = new bytes(len);
+        uint256 k = len - 1;
+        while (_i != 0) {
+            bstr[k--] = bytes1(uint8(48 + _i % 10));
+            _i /= 10;
+        }
+        return string(bstr);
     }
 }
