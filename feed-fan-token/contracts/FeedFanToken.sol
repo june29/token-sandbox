@@ -15,15 +15,14 @@ contract FeedFanToken is ERC1155, Ownable {
     constructor() ERC1155("") {
     }
 
-    function addFeed(string memory feedUrl) public onlyOwner {
-        require(feedUrlToId[feedUrl] == 0, "Feed URL already exists");
-        feedId.increment();
-        uint256 currentFeedId = feedId.current();
-        feedIdToUrl[currentFeedId] = feedUrl;
-        feedUrlToId[feedUrl] = currentFeedId;
-    }
-
-    function subscribe(uint256 _feedId) public {
+    function subscribe(string memory feedUrl) public {
+        uint256 _feedId = feedUrlToId[feedUrl];
+        if (_feedId == 0) {
+            feedId.increment();
+            _feedId = feedId.current();
+            feedIdToUrl[_feedId] = feedUrl;
+            feedUrlToId[feedUrl] = _feedId;
+        }
         require(bytes(feedIdToUrl[_feedId]).length > 0, "Feed does not exist");
         _mint(msg.sender, _feedId, 1, "");
     }
