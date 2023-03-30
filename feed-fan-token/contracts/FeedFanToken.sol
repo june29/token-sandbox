@@ -8,14 +8,17 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract FeedFanToken is ERC1155, Ownable {
     uint256 private feedID;
     mapping(uint256 => string) private feedURLs;
+    mapping(string => uint256) private feedURLToID;
 
     constructor() ERC1155("") {
         feedID = 0;
     }
 
     function addFeed(string memory feedURL) public onlyOwner {
-        feedURLs[feedID] = feedURL;
+        require(feedURLToID[feedURL] == 0, "Feed URL already exists");
         feedID += 1;
+        feedURLs[feedID] = feedURL;
+        feedURLToID[feedURL] = feedID;
     }
 
     function subscribe(uint256 _feedID) public {
@@ -30,6 +33,10 @@ contract FeedFanToken is ERC1155, Ownable {
 
     function getFeedURL(uint256 _feedID) public view returns (string memory) {
         return feedURLs[_feedID];
+    }
+
+    function getFeedID(string memory feedURL) public view returns (uint256) {
+        return feedURLToID[feedURL];
     }
 
     function isSubscribed(uint256 _feedID, address _user) public view returns (bool) {
