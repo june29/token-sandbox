@@ -26,6 +26,7 @@ contract FeedFanToken is ERC1155 {
             feedUrlToId[feedUrl] = _feedId;
         }
         require(bytes(feedIdToUrl[_feedId]).length > 0, "Feed does not exist");
+        require(!isSubscribed(_feedId, msg.sender), "Already subscribed");
         _mint(msg.sender, _feedId, 1, "");
     }
 
